@@ -48,7 +48,7 @@
   TRACKNUMBER: (2)
   NIL
 
-  CL-USER> (format-abstract:append-audio-tag a :lyrics '("2" "3"))
+  CL-USER> (format-abstract:append-audio-tag a :lyrics '("2" "3"));;be careful, "2","3" should be string, not int
   ("2" "3")
 
   CL-USER> (format-abstract:show-tags a)

@@ -1,35 +1,35 @@
-- [Audio-Tag  - a sample tool to deal with audio tags. read, edit and write](#orgae6864e)
-  - [Warning: there may be lots of bugs, so when using this lib, be very careful!!](#orgaf200de)
-  - [Usage](#org103be58)
-    - [Simple example](#org77f77aa)
-  - [Copyright](#org879b76d)
-- [Todo](#org3059a96)
-  - [use union to make tag only appear only once](#orge41c45d)
-  - [bug fix](#orga02b3d8)
-  - [speed up](#org49be9b6)
-  - [add support for other formats](#orgbf5e0ab)
-  - [add support for cover image](#org3d0c0e3)
-  - [add support for auto write to temp file and replace original file](#org3c4806b)
+- [Audio-Tag  - a sample tool to deal with audio tags. read, edit and write](#org1ab2213)
+  - [Warning: there may be lots of bugs, so when using this lib, be very careful!!](#org12f1d41)
+  - [Usage](#org54fa742)
+    - [Simple example](#org5b2de48)
+  - [Copyright](#org98553ed)
+- [Todo](#org81b6ca4)
+  - [use union to make tag only appear only once](#org626dc25)
+  - [bug fix](#orge678e77)
+  - [speed up](#orgd634e0d)
+  - [add support for other formats](#org74df678)
+  - [add support for cover image](#orgd172f47)
+  - [add support for auto write to temp file and replace original file](#orgdd7d953)
 
 
-<a id="orgae6864e"></a>
+<a id="org1ab2213"></a>
 
 # Audio-Tag  - a sample tool to deal with audio tags. read, edit and write
 
 For now, only support flac, support for other formats may be added later. Only test using sbcl 2.0.11, utf-8 is supported. Feel free to open issues!
 
 
-<a id="orgaf200de"></a>
+<a id="org12f1d41"></a>
 
 ## Warning: there may be lots of bugs, so when using this lib, be very careful!!
 
 
-<a id="org103be58"></a>
+<a id="org54fa742"></a>
 
 ## Usage
 
 
-<a id="org77f77aa"></a>
+<a id="org5b2de48"></a>
 
 ### Simple example
 
@@ -75,7 +75,7 @@ TITLE: (春江花月夜《编钟与编磬》)
 TRACKNUMBER: (2)
 NIL
 
-CL-USER> (format-abstract:append-audio-tag a :lyrics '("2" "3"))
+CL-USER> (format-abstract:append-audio-tag a :lyrics '("2" "3"));;be careful, "2","3" should be string, not int
 ("2" "3")
 
 CL-USER> (format-abstract:show-tags a)
@@ -118,43 +118,43 @@ NIL
 ```
 
 
-<a id="org879b76d"></a>
+<a id="org98553ed"></a>
 
 ## Copyright
 
 Copyright (c) 2021 I-Entropy (<1041559871@qq.com>)
 
 
-<a id="org3059a96"></a>
+<a id="org81b6ca4"></a>
 
 # Todo
 
 
-<a id="orge41c45d"></a>
+<a id="org626dc25"></a>
 
 ## use union to make tag only appear only once
 
 
-<a id="orga02b3d8"></a>
+<a id="orge678e77"></a>
 
 ## bug fix
 
 
-<a id="org49be9b6"></a>
+<a id="orgd634e0d"></a>
 
 ## speed up
 
 
-<a id="orgbf5e0ab"></a>
+<a id="org74df678"></a>
 
 ## add support for other formats
 
 
-<a id="org3d0c0e3"></a>
+<a id="orgd172f47"></a>
 
 ## add support for cover image
 
 
-<a id="org3c4806b"></a>
+<a id="orgdd7d953"></a>
 
 ## add support for auto write to temp file and replace original file
