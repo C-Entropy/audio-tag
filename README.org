@@ -2,7 +2,8 @@
   For now, only support flac, support for other formats may be added later.
   Only test using sbcl 2.0.11, utf-8 is supported.
   Feel free to open issues!
-* Warning: there may be lots of bugs, so when using this lib, be very careful!!
+** Warning: there may be lots of bugs, so when using this lib, be very careful!!
+
 ** Usage
 *** Simple example
 #+begin_src lisp
@@ -69,6 +70,9 @@
   CL-USER> (format-abstract:set-audio-tag a :lyrics 'NIL)
   NIL
 
+  CL-USER> (format-abstract:set-audio-tag a :a '("1"));;tag-key will be created auto.
+  NIL
+
   CL-USER> (audio-tag:save-audio a "/home/nil/Attic/temp/a.flac"  :if-exists :supersede)
   NIL
 
@@ -82,9 +86,9 @@
   DATE: (2003)
   ARTIST: (群星)
   ALBUM: (春江花月夜)
+  A: (1)
   NIL
 #+end_src
-
 ** Copyright
 
 Copyright (c) 2021 I-Entropy (<1041559871@qq.com>)

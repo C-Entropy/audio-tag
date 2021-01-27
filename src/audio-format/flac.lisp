@@ -174,8 +174,7 @@
    hash))
 
 (defmethod show-tags ((flac-file flac))
-  (show-hash (temp-vorbis flac-file))
-  (vendor-string (-get-vorbis- flac-file)))
+  (show-hash (temp-vorbis flac-file)))
 
 (defmethod set-audio-tag ((flac-file flac) tag-key tag-value)
   (if (listp tag-value)
