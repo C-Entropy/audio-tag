@@ -94,3 +94,5 @@ Copyright (c) 2021 I-Entropy (<1041559871@qq.com>)
 ** bug fix
 ** speed up
 ** add support for other formats
+** add support for cover image
+** add support for auto write to temp file and replace original file

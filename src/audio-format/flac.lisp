@@ -1,9 +1,10 @@
 (in-package #:flac)
 
 ;; (defun read-flac-stream (flac-stream))
-
-(defconstant +fLaC+ "fLaC"
+(defparameter +flac+ "fLaC"
   "constant for flac identifer")
+
+
 
 (defclass-easy flac ()
     ((flag :initform "fLaC" :accessor flag :allocation :class)
@@ -37,7 +38,7 @@
 
   (when (>= (stream-size flac-stream) 4)
     (stream-seek flac-stream 0 :start)
-    (when (string= +fLaC+  (stream-read-string flac-stream 4))
+    (when (string= +flac+  (stream-read-string flac-stream 4))
       (return-from determine-flac "flac")))
   NIL)
 
@@ -173,7 +174,8 @@
    hash))
 
 (defmethod show-tags ((flac-file flac))
-  (show-hash (temp-vorbis flac-file)))
+  (show-hash (temp-vorbis flac-file))
+  (vendor-string (-get-vorbis- flac-file)))
 
 (defmethod set-audio-tag ((flac-file flac) tag-key tag-value)
   (if (listp tag-value)
@@ -197,8 +199,8 @@
 (defmethod commit-audio ((flac-file flac))
   (setf (comments (-get-vorbis- flac-file))
 	(commit-tag (temp-vorbis flac-file)))
-  ;; (setf (vendor-string (-get-vorbis- flac-file))
-  ;; 	"Audio-tag0.0.1")
+  (setf (vendor-string (-get-vorbis- flac-file))
+	audio-tag:*vendor-string*)
   (setf (vendor-length (-get-vorbis- flac-file))
 	(flex:char-length (vendor-string (-get-vorbis- flac-file))))
   (let ((len 0)
@@ -223,7 +225,7 @@
 
 (defun write-identifier (out-stream)
   "write fLaC to out-stream"
-  (stream-write-string +fLaC+ out-stream))
+  (stream-write-string +flac+ out-stream))
 
 (defgeneric -write-block-body- (block-body flac-stream)
   (:documentation "write block body"))

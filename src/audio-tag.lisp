@@ -1,5 +1,8 @@
 (in-package :audio-tag)
 
+(defparameter *vendor-string* "Audio-tag 0.0.1"
+  "string represent package name and version")
+
 (defgeneric make-audio-obj (audio-type)
   (:documentation "make audio obj depends on audio-type"))
 
@@ -24,7 +27,7 @@
 	audio-obj))))
 
 (defun save-audio (audio-obj ;; &optional
-			       out-file &key (if-exists :error))
+		   out-file &key (if-exists :error))
   "save audio file. If no tag changed, no write will be performed, save file at original place and name, if no out-file is specified
 auto correct suffix according if correct is T"
   (let ((tempp NIL));;using a temp file or not.

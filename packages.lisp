@@ -88,5 +88,6 @@
 	#:format-abstract
 	#:stream
 	#:utils)
-  (:export #:make-audio
+  (:export #:*vendor-string*
+	   #:make-audio
 	   #:save-audio))
