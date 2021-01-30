@@ -1,10 +1,15 @@
-(in-package #:flac)
+(in-package #:format-abstract)
+
+(defun determine-flac (flac-stream)
+  "determine-flac"
+
+  (when (>= (stream-size flac-stream) 4)
+    (stream-seek flac-stream 0 :start)
+    (when (string= +flac+  (stream-read-string flac-stream 4))
+      (return-from determine-flac '("flac"))))
+  NIL)
 
 ;; (defun read-flac-stream (flac-stream))
-(defparameter +flac+ "fLaC"
-  "constant for flac identifer")
-
-
 
 (defclass-easy flac ()
     ((flag :initform "fLaC" :accessor flag :allocation :class)
@@ -32,15 +37,6 @@
 (defclass-easy block-padding ()
     (padding)
     "for blocks we don't interst")
-
-(defun determine-flac (flac-stream)
-  "determine-flac"
-
-  (when (>= (stream-size flac-stream) 4)
-    (stream-seek flac-stream 0 :start)
-    (when (string= +flac+  (stream-read-string flac-stream 4))
-      (return-from determine-flac "flac")))
-  NIL)
 
 (defun -parse-block-header- (flac-stream)
   (let ((block-header (stream-read-u4 flac-stream)))
@@ -141,11 +137,11 @@
       (setf lastp (first block-header))
       (setf block-type (second block-header))
       (setf body-len (third block-header))
-      (setf block-body (make-instance (-get-body-instance- block-type)))
+      (setf block-body (make-instance (-get-body-instance- block-type)));;make a instance using block-type and pass it to -parse-block-body-
       (-parse-block-body- block-body
 			  flac-stream
 			  body-len))
-    metadata-block));;make a instance using block-type and pass it to -parse-block-body-
+    metadata-block))
 
 (defun -parse-metadata-blocks- (flac-stream)
   "-parse-flac-metadata-blocks-"
@@ -185,8 +181,11 @@
   (setf (gethash tag-key (temp-vorbis flac-file))
 	(append tag-value (gethash tag-key (temp-vorbis flac-file)))))
 
+(defmethod set-audio-tags ((flac-file flac) audio-tag)
+  (setf (temp-vorbis flac-file) audio-tag))
 
-(defun commit-tag (tags)
+
+(defun -commit-tag- (tags)
   "gen new tags"
   (let ((comments NIL))
     (maphash (lambda (key value)
@@ -197,7 +196,7 @@
 
 (defmethod commit-audio ((flac-file flac))
   (setf (comments (-get-vorbis- flac-file))
-	(commit-tag (temp-vorbis flac-file)))
+	(-commit-tag- (temp-vorbis flac-file)))
   (setf (vendor-string (-get-vorbis- flac-file))
 	audio-tag:*vendor-string*)
   (setf (vendor-length (-get-vorbis- flac-file))
@@ -222,7 +221,7 @@
 		 (setf (lastp (cdr (car blocks))) 1))))
     (set-last (metadata-blocks flac-file))))
 
-(defun write-identifier (out-stream)
+(defun -write-identifier- (out-stream)
   "write fLaC to out-stream"
   (stream-write-string +flac+ out-stream))
 
@@ -293,20 +292,20 @@
     (-write-metadata-block- (cdr metadata-block) outstream)))
 
 (defmethod write-audio-file ((flac-file flac) out-stream)
-  (write-identifier out-stream)
+  (-write-identifier- out-stream)
   (commit-audio flac-file)
   (-write-metadata-blocks- (metadata-blocks flac-file) out-stream)
   (stream-copy (format-abstract:file-path flac-file) (audio-frame-pos flac-file) out-stream))
 
-(defun get-comment-len (flac-file)
-  (dolist (body (metadata-blocks flac-file))
-    (format t "~A: ~A~%" (block-type (cdr body)) (body-len (cdr body)))))
+;; (defun get-comment-len (flac-file)
+;;   (dolist (body (metadata-blocks flac-file))
+;;     (format t "~A: ~A~%" (block-type (cdr body)) (body-len (cdr body)))))
 
-(defun get-stream-info (flac-file)
-  (with-slots (min-block-size max-block-size min-frame-size max-frame-size
-	       sample-rate num-channels bits-per-sample total-samples md5-sig)
-      (-get-block-body- flac-file "streaminfo")
-      (format t "~{~A: ~}~%" (list min-block-size max-block-size min-frame-size
-				   max-frame-size sample-rate
-				   num-channels bits-per-sample total-samples
-				   md5-sig))))
+;; (defun get-stream-info (flac-file)
+;;   (with-slots (min-block-size max-block-size min-frame-size max-frame-size
+;; 	       sample-rate num-channels bits-per-sample total-samples md5-sig)
+;;       (-get-block-body- flac-file "streaminfo")
+;;       (format t "~{~A: ~}~%" (list min-block-size max-block-size min-frame-size
+;; 				   max-frame-size sample-rate
+;; 				   num-channels bits-per-sample total-samples
+;; 				   md5-sig))))

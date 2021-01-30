@@ -43,33 +43,14 @@
 	   #:stream-write-string
 	   #:with-audio-stream))
 
-
-(defpackage #:flac
-  (:use #:cl
-	#:utils
-	#:stream)
-  (:export #:append-audio-tag
-	   #:commit-audio
-	   #:flac
-	   #:determine-flac
-	   #:get-comment-len
-	   #:get-audio-tag
-	   #:get-stream-info
-	   #:metadata-blocks
-	   #:parse-audio-stream
-	   #:set-audio-tag
-	   #:show-tags
-	   #:write-audio-file))
-
 (defpackage #:format-abstract
   (:use #:cl
 	#:utils
-	#:flac
 	#:stream
 	#:osicat)
   (:export #:append-audio-tag
-	   #:commit-audio
-	   #:commit-tag
+	   ;; #:commit-audio
+	   ;; #:commit-tag
 	   #:get-fun
 	   #:get-audio-tag
 	   #:determine-audio-type
@@ -79,12 +60,34 @@
 	   #:flac-file
 	   #:parse-audio-stream
 	   #:set-audio-tag
+	   #:set-audio-tags
 	   #:show-tags
 	   #:write-audio-file))
 
+(defpackage #:abstract-layer
+  (:use #:cl
+	#:format-abstract
+	#:stream
+	#:utils)
+  (:export #:append-audio-tag
+	   ;; #:commit-audio
+	   ;; #:commit-tag
+	   #:*determine-funs*
+	   #:get-fun
+	   #:get-audio-tag
+	   ;; #:determine-audio-type
+	   #:file-name
+	   #:file-path
+	   #:file-type
+	   #:parse-audio-stream
+	   #:set-audio-tag
+	   #:set-audio-tags
+	   #:show-tags
+	   #:write-audio-file))
 
 (defpackage #:audio-tag
-  (:use #:cl
+  (:use #:abstract-layer
+	#:cl
 	#:format-abstract
 	#:stream
 	#:utils)

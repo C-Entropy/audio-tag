@@ -47,12 +47,25 @@
   "a shortcut to set [count] bits num at [pos] for byte"
   `(setf (ldb (byte ,count ,pos) ,byte) ,num))
 
+;; (defun stream-read-n-bytes (instream len &key (bits-per-byte 8) (endian :l))
+;;   "read n byte, for each byte, read bist-per-byte bits"
+;;   (let ((result 0)
+;; 	(bytes (stream-read-byte-sequence instream len)))
+;;     (when (eq :b endian)
+;;       (setf bytes (nreverse bytes)))
+;;     (labels ((read-bytes (count)
+;; 	       (setf (ldb (byte bits-per-byte (* count 8)) result) (elt bytes count))
+;; 	       (unless (= 0 count)
+;; 		 (read-bytes (1- count)))))
+;;       (nreverse bytes)
+;;       (read-bytes (1- len)))
+;;     result))
+
 (defun stream-read-n-bytes (instream len &key (bits-per-byte 8) (endian :l))
   "read n byte, for each byte, read bist-per-byte bits"
   (let ((result 0))
     (ecase endian
       (:l (labels ((read-l (count)
-		     ;; (format t "count: ~A~%" count)
 		     (setf (ldb (byte bits-per-byte (* count 8)) result) (read-byte instream))
 		     (unless (= 0 count)
 		       (read-l (1- count)))))

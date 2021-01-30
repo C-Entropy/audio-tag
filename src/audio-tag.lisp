@@ -16,7 +16,7 @@
   "Make a obj audio on audio-file"
 
   (with-audio-stream (audio-stream audio-file)
-    (let ((audio-type (determine-audio-type audio-stream :stream)))
+    (let ((audio-type (car (determine-audio-type audio-stream :stream))))
       (unless audio-type
 	(error "unrecognized audio format"))
       (let ((audio-obj (-make-audio-obj- audio-type)))
@@ -30,15 +30,7 @@
 		   out-file &key (if-exists :error))
   "save audio file. If no tag changed, no write will be performed, save file at original place and name, if no out-file is specified
 auto correct suffix according if correct is T"
-  (let ((tempp NIL));;using a temp file or not.
-    (when (or (not out-file)
-	      (string= out-file (namestring (file-path audio-obj))))
-      (setf tempp T)
-      (setf out-file "mk-tmp-file")
-      )
-    (with-audio-stream (audio-stream out-file :direction :output :if-exists if-exists)
-      (write-audio-file audio-obj audio-stream)
-      )
-    ;; (when tempp
-    ;;   (mv ))
-    ))
+  (when (string= (namestring (file-path audio-obj)) (namestring out-file))
+    (error "don't support write file back directly now, please use a temp file manually"))
+  (with-audio-stream (audio-stream out-file :direction :output :if-exists if-exists :if-does-not-exist :create)
+    (write-audio-file audio-obj audio-stream)))

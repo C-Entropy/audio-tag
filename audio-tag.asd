@@ -1,5 +1,5 @@
 (defsystem "audio-tag"
-  :version "0.1.0"
+  :version "0.0.1"
   :author "I-Entropy"
   :license ""
   :depends-on ("flexi-streams" "osicat")
@@ -10,7 +10,9 @@
 		 (:file "stream")
 		 (:module "audio-format" :depends-on ("utils" "stream")
 		  :components ((:file "flac")
-			       (:file "format-abstract" :depends-on ("flac"))))
+			       (:file "mp3")
+			       (:file "format-abstract" :depends-on ("flac" "mp3"))
+			       (:file "abstract-layer" :depends-on ("format-abstract"))))
 		 (:file "audio-tag" :depends-on ("utils")))))
   ;; ((:file "packages")
 	      ;;  (:module "src" :depends-on ("packages")
