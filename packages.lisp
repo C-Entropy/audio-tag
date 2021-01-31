@@ -51,7 +51,7 @@
   (:export #:append-audio-tag
 	   ;; #:commit-audio
 	   ;; #:commit-tag
-	   #:get-fun
+	   ;; #:get-fun
 	   #:get-audio-tag
 	   #:determine-audio-type
 	   #:file-name
@@ -64,30 +64,8 @@
 	   #:show-tags
 	   #:write-audio-file))
 
-(defpackage #:abstract-layer
-  (:use #:cl
-	#:format-abstract
-	#:stream
-	#:utils)
-  (:export #:append-audio-tag
-	   ;; #:commit-audio
-	   ;; #:commit-tag
-	   #:*determine-funs*
-	   #:get-fun
-	   #:get-audio-tag
-	   ;; #:determine-audio-type
-	   #:file-name
-	   #:file-path
-	   #:file-type
-	   #:parse-audio-stream
-	   #:set-audio-tag
-	   #:set-audio-tags
-	   #:show-tags
-	   #:write-audio-file))
-
 (defpackage #:audio-tag
-  (:use #:abstract-layer
-	#:cl
+  (:use #:cl
 	#:format-abstract
 	#:stream
 	#:utils)

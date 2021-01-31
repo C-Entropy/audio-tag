@@ -41,3 +41,27 @@
 
 (defgeneric write-audio-file (audio-file out-file)
   (:documentation "write audio-file to out-file"))
+
+
+(defun -get-type-fun- (audio-type)
+  (case (get-keyword audio-type)
+    (:mp3 #'determine-mp3)
+    (:flac #'determine-flac)))
+
+(defun determine-audio-type (target &optional (type :file))
+  "determine audio type"
+  (ecase type
+    (:stream ((lambda (file-type)
+		(when (and file-type
+			   (-get-type-fun- file-type)
+			   (funcall (-get-type-fun- file-type)
+				    target))
+		  (return-from determine-audio-type (list file-type)))
+		(let ((result (testf *determine-funs* target)))
+		  (if result
+		      result
+		      (error (concatenate 'string "can't find audio-type for file: " (namestring (flexi-pathname target))
+					  "~% check 1.if binary of your file is conrrect~%2. if your audio type is support 3. other reason")))))
+	      (flexi-type target)));;get file shuffix from a flexi-stream
+    (:file (with-audio-stream (audio-stream target)
+	     (determine-audio-type audio-stream :stream)))))
