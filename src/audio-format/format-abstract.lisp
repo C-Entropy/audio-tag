@@ -12,6 +12,10 @@
 (defclass-easy mp3-file (mp3 file)
     ())
 
+(defparameter *determine-funs*
+  (list #'determine-flac
+	#'determine-mp3))
+
 (defparameter +flac+ "fLaC"
   "constant for flac identifer")
 
@@ -56,7 +60,9 @@
 			   (-get-type-fun- file-type)
 			   (funcall (-get-type-fun- file-type)
 				    target))
-		  (return-from determine-audio-type (list file-type)))
+		  (return-from determine-audio-type (funcall (-get-type-fun- file-type)
+				    target);; (list file-type)
+		    ))
 		(let ((result (testf *determine-funs* target)))
 		  (if result
 		      result

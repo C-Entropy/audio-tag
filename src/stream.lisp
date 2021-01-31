@@ -110,6 +110,15 @@
 (defun stream-write-string (string instream)
   (write-sequence string instream))
 
+(defun stream-read-iso-string (instream len)
+  "Read an ISO-8859-1 string of len"
+  (flex:octets-to-string (stream-read-byte-sequence instream len) :external-format :iso-8859-1))
+
+(defun stream-write-iso-string (string outstream)
+  "Read an ISO-8859-1 string of len"
+  (stream-write-byte-sequence (flex:string-to-octets string :external-format :iso-8859-1)
+			      outstream))
+
 (defun stream-read-utf-8-string (instream len)
   "Read an UTF-8 string of length LEN."
 
@@ -125,6 +134,11 @@
   ;; 		  outstream)
   )
 
+(defun stream-read-u1 (instream)
+  (read-byte instream))
+
+(defun stream-write-u1 (byte outstream)
+  (write-byte byte instream))
 
 (defun stream-read-u2 (instream &optional (endian :l))
   (stream-read-n-bytes instream 2 :endian endian))

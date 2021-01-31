@@ -23,6 +23,7 @@
 	   ;; #:stream-read-char
 	   #:stream-read-n-bytes
 	   #:stream-read-string
+	   #:stream-read-u1
 	   #:stream-read-u2
 	   #:stream-read-u3
 	   #:stream-read-u4
@@ -33,6 +34,7 @@
 	   #:stream-seek
 	   #:stream-size
 	   #:stream-write-byte-sequence
+	   #:stream-write-u1
 	   #:stream-write-u2
 	   #:stream-write-u3
 	   #:stream-write-u4

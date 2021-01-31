@@ -12,7 +12,7 @@
 ;; (defun read-flac-stream (flac-stream))
 
 (defclass-easy flac ()
-    ((flag :initform "fLaC" :accessor flag :allocation :class)
+    ((identifier :initform "fLaC" :accessor identifier :allocation :class)
      metadata-blocks
      audio-frame-pos
      temp-vorbis)
