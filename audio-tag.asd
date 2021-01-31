@@ -1,7 +1,7 @@
 (defsystem "audio-tag"
   :version "0.0.1"
   :author "I-Entropy"
-  :license ""
+  :license "BSD-2-Clause License"
   :depends-on ("flexi-streams" "osicat")
   :components ((:file "packages")
 	       (:module "src" :depends-on ("packages")
@@ -26,7 +26,7 @@
 
 (defsystem "audio-tag/tests"
   :author "I-Entropy"
-  :license ""
+  :license "BSD-2-Clause License"
   :depends-on ("audio-tag"
                "rove")
   :components ((:module "tests"
