@@ -48,7 +48,7 @@
 
 ;; (declaim (inline find-function))
 
-(defun find-function (fun-name &optional (package (sb-int:sane-package)))
+(defun find-function (fun-name &optional (package *package*))
   "return function found, if none, return NIL"
   (if (find-symbol fun-name package)
       (symbol-function (find-symbol fun-name package))
