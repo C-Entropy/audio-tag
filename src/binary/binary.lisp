@@ -1,6 +1,6 @@
 (in-package #:binary)
 
-(defmacro define-packet (packet-name ;; static-size-p
+(defmacro define-binary (packet-name ;; static-size-p
 			 slots
 			 &key size-packet opcode)
   (with-gensyms (objvar typevar datavar)
