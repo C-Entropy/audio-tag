@@ -3,25 +3,18 @@
   :author "I-Entropy"
   :license "BSD-2-Clause License"
   :depends-on ("flexi-streams" "osicat")
-  :components ((:file "packages")
-	       (:module "src" :depends-on ("packages")
+  :components ((:module "src"
                 :components
-                ((:file "utils")
-		 (:file "stream")
+                ((:file "package")
+		 (:file "utils":depends-on ("package"))
+		 (:file "stream" :depends-on ("package"))
 		 (:module "audio-format" :depends-on ("utils" "stream")
-		  :components ((:file "flac")
-			       (:file "mp3")
-			       (:file "format-abstract" :depends-on ("flac" "mp3"))))
-		 (:file "audio-tag" :depends-on ("utils")))))
-  ;; ((:file "packages")
-	      ;;  (:module "src" :depends-on ("packages")
-              ;;   :components
-	      ;; 	((:module "audio-format"
-	      ;; 	  :components
-	      ;; 	  ((:file "flac")
-	      ;; 	   (:file "format-abstract"  :depends-on ("flac"))))
-	      ;; 	 (:file "audio-tag" :depends-on ("format-abstract")))))
-  :description "tool to deal with audio tags. read and write"
+		  :components ((:file "package")
+			       (:file "flac" :depends-on ("package"))
+			       (:file "mp3" :depends-on ("package"))
+			       (:file "format-abstract" :depends-on ("flac" "mp3" "package"))))
+		 (:file "audio-tag" :depends-on ("audio-format" "stream" "utils" "package")))))
+  :description "tool to deal with audio tags. read, view and write"
   :in-order-to ((test-op (test-op "audio-tag/tests"))))
 
 (defsystem "audio-tag/tests"
