@@ -1,6 +1,7 @@
 (defpackage #:format-abstract
   (:use #:cl
 	#:utils
+	#:vendor
 	#:stream
 	#:osicat)
   (:export #:append-audio-tag

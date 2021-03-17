@@ -1,3 +1,12 @@
+(defpackage #:utils
+  (:use #:cl)
+  (:export #:defclass-easy
+	   #:find-function
+	   #:get-keyword
+	   #:parse
+	   #:push-pair-hash
+	   #:testf))
+
 (in-package #:utils)
 
 (defun get-keyword (string)

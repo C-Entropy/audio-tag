@@ -1,8 +1,5 @@
 (in-package :audio-tag)
 
-(defparameter *vendor-string* "Audio-tag 0.0.1"
-  "string represent package name and version")
-
 (defgeneric make-audio-obj (audio-type)
   (:documentation "make audio obj depends on audio-type"))
 

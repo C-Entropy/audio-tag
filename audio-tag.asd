@@ -5,18 +5,19 @@
   :depends-on ("flexi-streams" "osicat")
   :components ((:module "src"
                 :components
-                ((:file "package")
-		 (:file "utils":depends-on ("package"))
-		 (:file "stream" :depends-on ("package"))
+                ((:file "utils")
+		 (:file "vendor")
+		 (:file "stream")
 		 (:module "binary" :depends-on ("utils" "stream")
 		  :components ((:file "package")
 			       (:file "binary" :depends-on ("package"))))
-		 (:module "audio-format" :depends-on ("utils" "stream" "binary")
+		 (:module "audio-format" :depends-on ("utils" "stream" "binary" "vendor")
 		  :components ((:file "package")
 			       (:file "flac" :depends-on ("package"))
 			       (:file "mp3" :depends-on ("package"))
 			       (:file "format-abstract" :depends-on ("flac" "mp3" "package"))))
-		 (:file "audio-tag" :depends-on ("audio-format" "stream" "utils" "package")))))
+		 (:file "package" :depends-on ("audio-format" "stream" "utils" "vendor"))
+		 (:file "audio-tag" :depends-on ("package")))))
   :description "tool to deal with audio tags. read, view and write"
   :in-order-to ((test-op (test-op "audio-tag/tests"))))
 

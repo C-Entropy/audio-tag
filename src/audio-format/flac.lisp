@@ -198,7 +198,7 @@
   (setf (comments (-get-vorbis- flac-file))
 	(-commit-tag- (temp-vorbis flac-file)))
   (setf (vendor-string (-get-vorbis- flac-file))
-	audio-tag:*vendor-string*)
+	*vendor-string*)
   (setf (vendor-length (-get-vorbis- flac-file))
 	(flex:char-length (vendor-string (-get-vorbis- flac-file))))
   (let ((len 0)
