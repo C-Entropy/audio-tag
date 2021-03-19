@@ -8,6 +8,7 @@
 	   ;; #:commit-audio
 	   ;; #:commit-tag
 	   ;; #:get-fun
+	   #:get-tags
 	   #:get-audio-tag
 	   #:determine-audio-type
 	   #:file-name

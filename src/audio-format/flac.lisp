@@ -169,8 +169,18 @@
 	     (format t "~A: ~A~%" key value))
    hash))
 
+(defun get-hash (hash)
+  (let ((result-hash NIL))
+    (maphash (lambda (key value)
+	       (setf result-hash (append (list key value) result-hash)))
+	     hash)
+    result-hash))
+
 (defmethod show-tags ((flac-file flac))
   (show-hash (temp-vorbis flac-file)))
+
+(defmethod get-tags ((flac-file flac))
+  (get-hash (temp-vorbis flac-file)))
 
 (defmethod set-audio-tag ((flac-file flac) tag-key tag-value)
   (if (listp tag-value)

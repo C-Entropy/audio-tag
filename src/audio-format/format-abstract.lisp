@@ -31,6 +31,8 @@
 (defgeneric show-tags (audio-file)
   (:documentation "show all tags of audio-file"))
 
+(defgeneric get-tags (audio-file))
+
 (defgeneric set-audio-tag (audio-file tag-key tag-value)
   (:documentation "set tag info of audio-file using tag-key and value, multipule value is support if file format support.e.g. '(audio-file Artist a b)) will turn to (Artist a) (Artist b)"))
 
