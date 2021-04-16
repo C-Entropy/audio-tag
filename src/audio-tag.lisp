@@ -12,7 +12,7 @@
 (defun make-audio (audio-file)
   "Make a obj audio on audio-file"
 
-  (with-audio-stream (audio-stream audio-file)
+  (with-audio-stream (audio-stream (uiop:parse-unix-namestring audio-file))
     (let ((audio-type (car (determine-audio-type audio-stream :stream))))
       (unless audio-type
 	(error "unrecognized audio format"))

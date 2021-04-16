@@ -1,35 +1,32 @@
 (in-package #:binary)
 
-(defmacro define-binary (packet-name ;; static-size-p
-			 slots
-			 &key size-packet opcode)
-  (with-gensyms (objvar typevar datavar)
+(defun binary-slot->class-slot (slot)
+  `(,(first slot) :initarg ,(intern (symbol-name (first slot)) "KEYWORD")
+	  :initform NIL
+		  :accessor ,(first slot)))
+
+(defun stream->binary (slot stream)
+  `(setf ,(first slot) (read-binary ,@(cdr slot) ,stream)))
+
+(defun binary->stream (slot stream)
+  (write-binary (first slot) stream))
+
+(defmacro define-binary (binary-name slots)
+  (with-gensyms (objvar typevar streamvar)
     `(progn
-       (defclass ,packet-name NIL
-	 ,(mapcar #'packet-slot->class-slot slots))
+       (defclass ,binary-name NIL
+	 ,(mapcar #'binary-slot->class-slot slots))
 
-       (defmethod obj-to-data ((,objvar ,packet-name))
-	 (with-slots ,(mapcar #'first slots) ,objvar
-	   (append ,@(mapcar #'packet-slot->byte slots))))
-
-       ;; (defmethod static-size-p ((,objvar ,packet-name))
-       ;; 	 ,static-size-p)
-
-       (defmethod size-packet ((,objvar ,packet-name))
-	 ,(if size-packet
-	      `(with-slots ,(mapcar #'first slots) ,objvar
-		,size-packet)
-	      "no size-packet defined"))
-
-       (defmethod clx-proto-frame-opcode ((,objvar ,packet-name))
-	 ,(if opcode
-	      opcode
-	      `(error (concatenate 'string "error-opcode-not-set " (symbol-name ',packet-name)))))
-
-       (defmethod -clx-xim-read-frame- (,datavar (,typevar (eql ,(get-keyword packet-name))) &key)
-	 (let ((,objvar (make-instance ',packet-name)))
+       (defmethod read-binary ((,typevar ',binary-name) ,streamvar)
+	 (let ((,objvar (make-instance ',binary-name)))
 	   (with-slots ,(mapcar #'first slots) ,objvar
 	     ,@(mapcar #'(lambda (slot)
-			   (data->slot slot datavar))
+			   (stream->binary slot streamvar))
 		       slots))
-	   ,objvar)))))
+	   ,objvar))
+
+       (defmethod write-binary ((,objvar ,binary-name) ,streamvar)
+	 (with-slots ,(mapcar #'first slots) ,objvar
+	   ,@(mapcar #'(lambda (slot)
+			 (binary->stream slot streamvar))
+		     slots))))))

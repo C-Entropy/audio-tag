@@ -42,9 +42,9 @@
   (pathname (flexi-stream-stream flexi-stream)))
 
 (defmacro with-audio-stream ((audio-stream audio-file &rest args) &body body)
-    `(with-open-file (,audio-stream ,audio-file :element-type '(unsigned-byte 8) ,@args)
-       (setf ,audio-stream (flexi-streams:make-flexi-stream ,audio-stream :external-format :utf-8))
-       ,@body))
+  `(with-open-file (,audio-stream ,audio-file :element-type '(unsigned-byte 8) ,@args)
+     (setf ,audio-stream (flexi-streams:make-flexi-stream ,audio-stream :external-format :utf-8))
+     ,@body))
 
 (defun stream-copy (infile pos outstream)
   (with-audio-stream (instream infile)
@@ -153,7 +153,7 @@
   (flex:octets-to-string (stream-read-byte-sequence instream len) :external-format :iso-8859-1))
 
 (defun stream-write-iso-string (string outstream)
-  "Read an ISO-8859-1 string of len"
+  "Write an ISO-8859-1 string of len to outstream"
   (stream-write-byte-sequence (flex:string-to-octets string :external-format :iso-8859-1)
 			      outstream))
 
